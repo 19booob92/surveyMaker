@@ -1,5 +1,9 @@
 #!/bin/python
 
+
+from surveycreator import create
+from dataanalyzer import DataProcessor
+
 import json
 from twisted.internet.defer import succeed
 
@@ -22,11 +26,11 @@ class Node(object):
 class IndexController(object):
 
     app = Klein()
+    data_processor = DataProcessor()
+
 
     def __init__(self):
         self.__items__ = {}
-        self.nodes = []
-        self.links = {}
 
     @app.route('/', branch=True)
     def mainPage(self, request):
@@ -35,16 +39,21 @@ class IndexController(object):
 
     @app.route('/diagramData', methods=['POST'])
     def saveAlarmData(self, request):
-        data = json.loads(request.content.read())
-        for node in data['nodeDataArray']:
-            nodeToCreate = Node(node['key'], node['question'], node['value'], node['name'])
-            self.nodes.append(nodeToCreate)
+        self.data_processor.processData(request)
 
     @app.route('/diagramData', methods=['GET'])
     def getNodes(self, request):
-        return len(self.nodes) + ' ' + len(self.links)
+        return str(self.data_processor.fetchData())
+
+    @app.route('/generateSurvey', methods=['GET'])
+    def generateSurvey(self, request):
+        return create(self.data_processor.nodes, self.data_processor.links)
+
+    @app.route('/processSurvey', methods=['GET'])
+    def processSurvey(self, request):
+        return create(self.data_processor.nodes, self.data_processor.links)
 
 if __name__ == '__main__':
     mainController = IndexController()
 
-    mainController.app.run('192.168.8.101', 8081)
+    mainController.app.run('192.168.0.6', 8081)

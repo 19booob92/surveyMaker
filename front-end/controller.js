@@ -1,4 +1,4 @@
-var url = 'http://192.168.8.101:8081/diagramData'
+var url = 'http://192.168.0.6:8081/diagramData'
 
 function init() {
 	var $ = go.GraphObject.make;
@@ -9,16 +9,8 @@ function init() {
 	    	}
 	);
 
-	myDiagram.toolManager.textEditingTool.defaultTextEditor = window.TextEditor;
+	//myDiagram.toolManager.textEditingTool.defaultTextEditor = window.TextEditor;
 	myDiagram.toolManager.mouseDownTools.add($(LinkShiftingTool));
-
-
-
-//	myDiagram.addDiagramListener("ObjectDoubleClicked",
-//      		function(e) {
-//        		var part = e.subject.part;
-//			alert('dwu klik');	
-//      	});
 
 	myDiagram.nodeTemplate = 
 		$(go.Node,
@@ -35,31 +27,32 @@ function init() {
         			new go.Binding("fill", "color")),
 			$(go.TextBlock,
       				"100 %",
-      				{ margin: 20, editable: true, stroke: "white", font: "bold 10px sans-serif" },
+      				{ margin: 20, editable: true, stroke: "black", font: "bold 10px sans-serif" },
 				{fromLinkable: false, toLinkable: false},
       				new go.Binding("text", "value")),
 			$(go.TextBlock,
       				"Nazwa",
-      				{ margin: 34, editable: true, stroke: "white", font: "bold 10px sans-serif" },
+      				{ margin: 34, editable: true, stroke: "black", font: "bold 10px sans-serif" },
 				{fromLinkable: false, toLinkable: false},
       				new go.Binding("text", "name")),
 			$(go.TextBlock,
       				"100 %",
-      				{ margin: 46, editable: true, stroke: "white", font: "bold 10px sans-serif" },
+      				{ margin: 46, editable: true, stroke: "black", font: "bold 10px sans-serif", isMultiline: true },
 				{fromLinkable: false, toLinkable: false},
-      				new go.Binding("text", "question"))
-
-
+      				new go.Binding("text", "question").makeTwoWay())
 		);
 
     		myDiagram.model.nodeDataArray=[
       			{ key:1, color: "red",  value: "100%", name: "Nazwa", question: "pytanie", location: new go.Point(0, 0) },
-      			{ key:2, color: "blue", value: "100%", name: "Nazwa", question: "pytanie", location: new go.Point(200, 100) },
+      			{ key:2, color: "green", value: "100%", name: "Nazwa", question: "pytanie", location: new go.Point(200, 100) },
       			{ key:3, color: "grey", value: " ", name: "Nazwa", question: "pytanie dodatkowe", location: new go.Point(400, 100) }
     		];
 
 		var currentID = 2;
 		myDiagram.model.makeUniqueKeyFunction = function(model, nodedata) {
+			if (currentID < 0) {
+				currentID = -1 * currentID;	
+			}
 			return currentID++;
 		}
     
@@ -70,7 +63,7 @@ function init() {
 }
 
 var sendData = function(model) {
-	var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.open("POST", url);
 	xmlhttp.setRequestHeader('Content-Type', 'text/plain; charset=utf-8');
 	xmlhttp.send(model);
