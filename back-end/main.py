@@ -34,8 +34,8 @@ class IndexController(object):
 
     @app.route('/', branch=True)
     def mainPage(self, request):
-        request.redirect('/index.html')
-        return File('../pages/')
+        request.redirect('/survey.html')
+        return File('../front-end/')
 
     @app.route('/diagramData', methods=['POST'])
     def saveAlarmData(self, request):
@@ -56,4 +56,4 @@ class IndexController(object):
 if __name__ == '__main__':
     mainController = IndexController()
 
-    mainController.app.run('192.168.0.6', 8081)
+    mainController.app.run('192.168.8.102', 8081)

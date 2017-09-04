@@ -1,4 +1,4 @@
-var url = 'http://192.168.0.6:8081/diagramData'
+var url = 'http://192.168.8.102:8081/diagramData'
 
 function init() {
 	var $ = go.GraphObject.make;
