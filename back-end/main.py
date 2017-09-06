@@ -1,6 +1,4 @@
 #!/bin/python
-
-
 from surveycreator import create
 from dataanalyzer import DataProcessor
 
@@ -9,6 +7,8 @@ from twisted.internet.defer import succeed
 
 from klein import Klein
 from twisted.web.static import File
+
+from properties import url
 
 class Node(object):
 
@@ -56,4 +56,4 @@ class IndexController(object):
 if __name__ == '__main__':
     mainController = IndexController()
 
-    mainController.app.run('192.168.8.102', 8081)
+    mainController.app.run(url, 8081)
