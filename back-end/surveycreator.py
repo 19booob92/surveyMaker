@@ -1,11 +1,15 @@
 import status
 
+DIV = 'div'
+BR = 'br'
+
 def create(nodes, links):
     outputHtml = ''
 
     for questKey in nodes:
         quest = nodes[questKey]
         if status.QUEST == quest.status:
+            outputHtml += frameStart()
             outputHtml += createQuestion(quest.question)
             outputHtml += createRadio(questKey, 'Tak')
             outputHtml += createRadio(questKey, 'Nie')
@@ -14,10 +18,22 @@ def create(nodes, links):
             for subquest in subquests:
                 outputHtml += createQuestion(subquest)
                 outputHtml += createNumberInput(questKey)
- 
-            outputHtml += "<br>"
+
+            outputHtml += createEndTag(DIV)
+
+            outputHtml += createStartTag(BR)
 
     return outputHtml
+
+def frameStart():
+    return ' <div style=\'border-style:groove\'; width:320px; margin:5px\'>'
+
+def createStartTag(tag):
+    return ' <'+ tag +'>'
+
+def createEndTag(tag):
+    return ' </' + tag +'>'
+
 
 def findSubquests(key, nodes, links):
     subquests = []

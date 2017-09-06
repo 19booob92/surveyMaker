@@ -32,9 +32,12 @@ class IndexController(object):
     def __init__(self):
         self.__items__ = {}
 
+    @app.route('/survey', branch=True)
+    def surveyPage(self, request):
+        return File('../front-end/survey.html')
+
     @app.route('/', branch=True)
     def mainPage(self, request):
-        request.redirect('/survey.html')
         return File('../front-end/')
 
     @app.route('/diagramData', methods=['POST'])
