@@ -26,7 +26,7 @@ def create(nodes, links):
     return outputHtml
 
 def frameStart():
-    return ' <div style=\'border-style:groove\'; width:320px; margin:5px\'>'
+    return ' <div style=\'border-style:groove; width:320px; margin:5px; padding-left:8px; padding-bottom:8px\'>'
 
 def createStartTag(tag):
     return ' <'+ tag +'>'

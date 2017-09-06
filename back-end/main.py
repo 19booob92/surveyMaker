@@ -52,9 +52,9 @@ class IndexController(object):
     def generateSurvey(self, request):
         return create(self.data_processor.nodes, self.data_processor.links)
 
-    @app.route('/processSurvey', methods=['GET'])
+    @app.route('/processSurvey', methods=['POST'])
     def processSurvey(self, request):
-        return create(self.data_processor.nodes, self.data_processor.links)
+        return processSurvey(request)
 
 if __name__ == '__main__':
     mainController = IndexController()
