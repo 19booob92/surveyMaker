@@ -1,6 +1,7 @@
 #!/bin/python
 from surveycreator import create
 from dataanalyzer import DataProcessor
+from surveyprocessor import process
 
 import json
 from twisted.internet.defer import succeed
@@ -54,7 +55,13 @@ class IndexController(object):
 
     @app.route('/processSurvey', methods=['POST'])
     def processSurvey(self, request):
-        return processSurvey(request)
+        return process(request)
+
+    @app.route('/chartData', methods=['GET'])
+    def chartData(self, request):
+        return "data"
+
+
 
 if __name__ == '__main__':
     mainController = IndexController()
